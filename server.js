@@ -19,7 +19,6 @@ connection.once('open', () => {
 app.use((err, req, res, next) => {
   console.log(err);
   res.status(500).json({ error: err.message });
-  next();
 });
 
 app.listen(3001, () => console.log('Server running ...'));
