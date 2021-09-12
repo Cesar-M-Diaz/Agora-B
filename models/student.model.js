@@ -38,15 +38,15 @@ studentSchema.pre('save', async function (next) {
 });
 
 studentSchema.statics.authenticate = async (email, password) => {
-  const user = await User.findOne({ email });
-  if (user) {
-    const result = await bcrypt.compare(password, user.password);
-    return result === true ? user : null;
+  const student = await Student.findOne({ email });
+  if (student) {
+    const result = await bcrypt.compare(password, student.password);
+    return result === true ? student : null;
   }
 
   return null;
 };
 
-const Student = mongoose.model('Student', studentSchema);
+const Student = mongoose.model('students', studentSchema);
 
 module.exports = Student;

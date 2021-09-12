@@ -43,15 +43,15 @@ tutorSchema.pre('save', async function (next) {
 });
 
 tutorSchema.statics.authenticate = async (email, password) => {
-  const user = await User.findOne({ email });
-  if (user) {
-    const result = await bcrypt.compare(password, user.password);
-    return result === true ? user : null;
+  const tutor = await Tutor.findOne({ email });
+  if (tutor) {
+    const result = await bcrypt.compare(password, tutor.password);
+    return result === true ? tutor : null;
   }
 
   return null;
 };
 
-const Tutor = mongoose.model('Tutor', tutorSchema);
+const Tutor = mongoose.model('tutors', tutorSchema);
 
 module.exports = Tutor;
