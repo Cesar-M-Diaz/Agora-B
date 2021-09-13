@@ -5,9 +5,6 @@ const jwt = require('jsonwebtoken');
 const createUser = async (req, res) => {
   try {
     const { type, inputs } = req.body;
-    // create a student or a tutor
-    // authenticate with a json web token
-    // response with a token that i can use in frontend
 
     if (type === 'student') {
       new Student(inputs)
