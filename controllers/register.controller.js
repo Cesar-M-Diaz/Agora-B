@@ -6,37 +6,22 @@ const createUser = async (req, res) => {
   try {
     const { type, inputs } = req.body;
 
+    let userSchema = '';
+
     if (type === 'student') {
-      new Student(inputs)
-        .save()
-        .then((student) => {
-          const token = jwt.sign(
-            { userId: student._id, type: 'student', userData: student },
-            'secret key',
-          );
-          res.status(201).json({ token });
-        })
-        .catch((err) => {
-          console.log(err);
-          res.status(404).json({ error: 'not found' });
-        });
-    } else if (type === 'tutor') {
-      new Tutor(inputs)
-        .save()
-        .then((tutor) => {
-          const token = jwt.sign(
-            { userId: tutor._id, type: 'student', userData: tutor },
-            'secret key',
-          );
-          res.status(201).json({ token });
-        })
-        .catch((err) => {
-          console.log(err);
-          res.status(404).json({ error: 'not found' });
-        });
+      userSchema = Student;
     } else {
-      res.status(404).json({ error: 'not found' });
+      userSchema = Tutor;
     }
+
+    const user = new userSchema(inputs);
+    await user.save();
+
+    const token = await jwt.sign(
+      { userId: user._id, type: `${type}`, userData: user },
+      'secret key',
+    );
+    res.status(201).json({ token });
   } catch (err) {
     res.status(400).json('Error: ' + err);
   }
