@@ -4,6 +4,7 @@ const logger = require('../middlewares/logger');
 
 const app = express.Router();
 
-app.post('/login', logger, User.getUserData);
+app.post('/login', logger);
+app.get('/login', User.getUserData)
 
 module.exports = app;
