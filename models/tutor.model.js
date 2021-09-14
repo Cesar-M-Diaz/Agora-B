@@ -11,8 +11,8 @@ const tutorSchema = mongoose.Schema(
       required: [true, 'Email is required'],
       validate: {
         validator: async function (value) {
-          const tutor = await Tutor.findOne({ email: value });
           const student = await Student.findOne({ email: value });
+          const tutor = await Tutor.findOne({ email: value });
           if (student || tutor) return false;
         },
         message: 'Duplicated Email',
