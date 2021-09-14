@@ -8,8 +8,9 @@ const studentSchema = mongoose.Schema({
     required: [true, "El email es requerido"],
     validate: {
       validator: async function(value) {
-        const student = await Student.findOne({ email: value })
-        return student === null
+        const student = await Student.findOne({ email: value });
+        const tutor = await Tutor.findOne({email: value});
+        return student === null && tutor === null
       },
       message: "Email duplicado"
     }
