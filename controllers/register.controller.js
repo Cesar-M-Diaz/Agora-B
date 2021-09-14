@@ -7,14 +7,9 @@ const createUser = async (req, res) => {
     const { type, inputs } = req.body;
 
     let userSchema = '';
+    userSchema = type === 'student' ? Student : Tutor;
 
-    if (type === 'student') {
-      userSchema = Student;
-    } else {
-      userSchema = Tutor;
-    }
-
-    const user = new userSchema(inputs);
+    const user = await new userSchema(inputs);
     await user.save();
 
     const token = await jwt.sign(

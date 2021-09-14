@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const Student = require('../models/student.model');
 
 const tutorSchema = mongoose.Schema(
   {
@@ -11,7 +12,8 @@ const tutorSchema = mongoose.Schema(
       validate: {
         validator: async function (value) {
           const tutor = await Tutor.findOne({ email: value });
-          return tutor === null;
+          const student = await Student.findOne({ email: value });
+          if (student || tutor) return false;
         },
         message: 'Duplicated Email',
       },
