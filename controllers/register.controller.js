@@ -13,10 +13,16 @@ const createUser = async (req, res) => {
     await user.save();
 
     const token = await jwt.sign(
-      { userId: user._id, type: `${type}`, userData: user },
+      {
+        exp: Math.floor(Date.now() / 1000) + 15 * 24 * 60 * 60,
+        userId: user._id,
+        type: `${type}`,
+        userData: { email: user.email, name: user.name },
+      },
       'secret key',
     );
-    res.status(201).json({ token });
+    const userInfo = { token, userData: user };
+    res.status(201).json(userInfo);
   } catch (err) {
     res.status(400).json('Error: ' + err);
   }
