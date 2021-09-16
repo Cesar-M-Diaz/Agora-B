@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const registerRoute = require('./routes/register');
 
 const loginRoute = require('./routes/login');
 
@@ -10,6 +11,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(loginRoute);
+app.use(registerRoute);
 
 const uri = process.env.ATLAS_URI;
 
@@ -18,7 +20,6 @@ const connection = mongoose.connection;
 connection.once('open', () => {
   console.log('MongoDB database connection established succesfully');
 });
-
 
 app.use((err, req, res, next) => {
   console.log(err);

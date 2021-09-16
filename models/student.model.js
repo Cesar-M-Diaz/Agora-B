@@ -1,54 +1,53 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
 
-const studentSchema = mongoose.Schema({
-  email: {
-    type: String,
-    match: /.+\@.+\..+/,
-    required: [true, "El email es requerido"],
-    validate: {
-      validator: async function(value) {
-        const student = await Student.findOne({ email: value });
-        const tutor = await Tutor.findOne({email: value});
-        return student === null && tutor === null
+const studentSchema = mongoose.Schema(
+  {
+    name: { type: String, required: [true, 'Name is required'] },
+    email: {
+      type: String,
+      match: /.+\@.+\..+/,
+      required: [true, 'Email is required'],
+      validate: {
+        validator: async function (value) {
+          const student = await Student.findOne({ email: value });
+          const tutor = await mongoose.model('tutor').findOne({ email: value });
+          if (student || tutor) return false;
+        },
+        message: 'Duplicated Email',
       },
-      message: "Email duplicado"
-    }
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    profile_photo: String,
   },
-  password: {
-    type: String,
-    required: true
+  {
+    timestamps: true,
   },
-  name: String,
-  profile_photo: String
-})
+);
 
-// middlewares
-
-// Encrypts password before saving
-studentSchema.pre("save", async function(next) {
+studentSchema.pre('save', async function (next) {
   try {
-    const hash = await bcrypt.hash(this.password, 10)
-    this.password = hash
-    next()
+    const hash = await bcrypt.hash(this.password, 10);
+    this.password = hash;
+    next();
   } catch (err) {
-    next(err)
+    next(err);
   }
-})
+});
 
-// métodos estáticos
-
-// Bcrypt auth method
 studentSchema.statics.authenticate = async (email, password) => {
-  const student = await Student.findOne({ email })
+  const student = await Student.findOne({ email });
   if (student) {
-    const result = await bcrypt.compare(password, student.password)
-    return result === true ? student : null
+    const result = await bcrypt.compare(password, student.password);
+    return result === true ? student : null;
   }
 
-  return null
-}
+  return null;
+};
 
-const Student = mongoose.model("students", studentSchema)
+const Student = mongoose.model('student', studentSchema);
 
-module.exports = Student
+module.exports = Student;
