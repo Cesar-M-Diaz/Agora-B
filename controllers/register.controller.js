@@ -17,7 +17,7 @@ const createUser = async (req, res) => {
         exp: Math.floor(Date.now() / 1000) + 15 * 24 * 60 * 60,
         userId: user._id,
         type: `${type}`,
-        userData: { email: user.email, name: user.name },
+        userData: user,
       },
       'secret key',
     );
