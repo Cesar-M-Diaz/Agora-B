@@ -5,20 +5,14 @@ const jwt = require('jsonwebtoken');
 const logger = async (req, res, next) => {
     try {
         const { email, password } = req.body;
-        let user;
-        const student = await Student.authenticate(email, password);
-        if (student) {
-            const token = jwt.sign({ userId: student._id, type: "student", userData: student }, 'secret key');
-            user = { token, userData: student };
+        const userAuth = await Student.authenticate(email, password) || await Tutor.authenticate(email, password);
+        let user = null;
+        if (userAuth) {
+            const token = jwt.sign({ userId: userAuth._id, type: `${userAuth.focus ? "tutor" : "student"}`, userData: userAuth }, 'secret key');
+            user = { token, userData: userAuth };
         } else {
-            const tutor = await Tutor.authenticate(email, password);
-            if(tutor) {
-                const token = jwt.sign({ userId: tutor._id, type: "tutor", userData: tutor }, 'secret key');
-                user = { token, userData: tutor };
-            } else {
-                res.status(404).send('Not found');
-                console.log('Not found');
-            }
+            res.status(404).send('Not found');
+            return;
         }
         res.json(user);
         next();
