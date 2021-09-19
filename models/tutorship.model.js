@@ -2,12 +2,14 @@ const mongoose = require('mongoose')
 
 const tutorshipSchema = mongoose.Schema({
     tutor_id :{
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Tutorship",
+        required: true,
     },   
     student_id : {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Student",
+        required: true,
     },
     status : {
         type: String,

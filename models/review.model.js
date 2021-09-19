@@ -10,12 +10,14 @@ const reviewSchema = mongoose.Schema({
         required : true
     },
     student_id : {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Student",
+        required: true,
     },
     tutorship_id :{
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Tutorship",
+        required: true,
     },
     comment: String
 })
