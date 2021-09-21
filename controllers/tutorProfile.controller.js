@@ -1,18 +1,10 @@
 const Tutor = require('../models/tutor.model');
-const mongoose = require('mongoose');
+const Review = require('../models/review.model');
 
 const getTutorData = async (req, res) => {
   try {
     const tutor = await Tutor.findById({ _id: req.params.id });
-    const {
-      name,
-      email,
-      profile_photo,
-      description,
-      profession,
-      focus,
-      rating,
-    } = tutor;
+    const { name, email, profile_photo, description, profession, focus, rating } = tutor;
     const tutorData = {
       name,
       email,
@@ -30,9 +22,8 @@ const getTutorData = async (req, res) => {
 };
 
 const getTutorReviews = async (req, res) => {
-  const reviews = await mongoose
-    .model('reviews')
-    .find({ tutor_id: req.params.id });
+  const reviews = await Review.find({ tutor_id: req.params.id }).populate('student_id');
+  console.log(reviews);
   res.status(200).json(reviews);
 };
 
