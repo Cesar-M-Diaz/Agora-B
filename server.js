@@ -4,6 +4,8 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const registerRoute = require('./routes/register');
 const tutorProfileRoutes = require('./routes/tutorProfile');
+const categories = require('./routes/categories');
+const tutors = require('./routes/tutors');
 const loginRoute = require('./routes/login');
 
 const app = express();
@@ -13,6 +15,8 @@ app.use(express.json());
 app.use(loginRoute);
 app.use(registerRoute);
 app.use(tutorProfileRoutes);
+app.use(categories);
+app.use(tutors);
 
 const uri = process.env.ATLAS_URI;
 
