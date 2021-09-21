@@ -15,7 +15,10 @@ app.use(registerRoute);
 app.use(categories);
 app.use(tutors);
 
+// database for production
 const uri = process.env.ATLAS_URI;
+// database for testing
+// const uri = process.env.ATLAS_URI_TEST;
 
 mongoose.connect(uri, { useNewUrlParser: true });
 const connection = mongoose.connection;
