@@ -11,9 +11,7 @@ const tutorSchema = mongoose.Schema(
       validate: {
         validator: async function (value) {
           const tutor = await Tutor.findOne({ email: value });
-          const student = await mongoose
-            .model('student')
-            .findOne({ email: value });
+          const student = await mongoose.model('Student').findOne({ email: value });
           if (student || tutor) return false;
         },
 
@@ -56,6 +54,6 @@ tutorSchema.statics.authenticate = async (email, password) => {
   return null;
 };
 
-const Tutor = mongoose.model('tutor', tutorSchema);
+const Tutor = mongoose.model('Tutor', tutorSchema);
 
 module.exports = Tutor;

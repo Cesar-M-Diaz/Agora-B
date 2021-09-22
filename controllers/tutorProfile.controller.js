@@ -14,7 +14,6 @@ const getTutorData = async (req, res) => {
       focus,
       rating,
     };
-    console.log(tutorData);
     res.status(200).json(tutorData);
   } catch (error) {
     res.status(500).json(error);
@@ -22,9 +21,12 @@ const getTutorData = async (req, res) => {
 };
 
 const getTutorReviews = async (req, res) => {
-  const reviews = await Review.find({ tutor_id: req.params.id }).populate('student_id');
-  console.log(reviews);
-  res.status(200).json(reviews);
+  try {
+    const reviews = await Review.find({ tutor_id: req.params.id }).populate('student_id', 'name');
+    res.status(200).json(reviews);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 
 module.exports = { getTutorData, getTutorReviews };
