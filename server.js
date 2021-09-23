@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const registerRoute = require('./routes/register');
 const categories = require('./routes/categories')
 const tutors = require('./routes/tutors')
+const tutorsearch = require('./routes/tutorSearch')
 
 
 const loginRoute = require('./routes/login');
@@ -17,6 +18,7 @@ app.use(loginRoute);
 app.use(registerRoute);
 app.use(categories);
 app.use(tutors);
+app.use(tutorsearch);
 
 const uri = process.env.ATLAS_URI;
 
