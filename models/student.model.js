@@ -11,7 +11,7 @@ const studentSchema = mongoose.Schema(
       validate: {
         validator: async function (value) {
           const student = await Student.findOne({ email: value });
-          const tutor = await mongoose.model('tutor').findOne({ email: value });
+          const tutor = await mongoose.model('Tutor').findOne({ email: value });
           if (student || tutor) return false;
         },
         message: 'Duplicated Email',
@@ -48,6 +48,6 @@ studentSchema.statics.authenticate = async (email, password) => {
   return null;
 };
 
-const Student = mongoose.model('student', studentSchema);
+const Student = mongoose.model('Student', studentSchema);
 
 module.exports = Student;
