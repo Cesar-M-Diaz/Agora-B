@@ -3,9 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const registerRoute = require('./routes/register');
-const categories = require('./routes/categories')
-const tutors = require('./routes/tutors')
-const tutorsearch = require('./routes/tutorSearch')
+const categories = require('./routes/categories');
+const tutors = require('./routes/tutors');
+const tutorsearch = require('./routes/tutorSearch');
 const tutorProfileRoutes = require('./routes/tutorProfile');
 const loginRoute = require('./routes/login');
 
@@ -33,4 +33,5 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: err.message });
 });
 
-app.listen(3001, () => console.log('Server running ...'));
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => console.log('Server running ...'));
