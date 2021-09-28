@@ -1,5 +1,4 @@
 require('dotenv').config();
-const bb = require('express-busboy');
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -12,11 +11,7 @@ const updateProfile = require('./routes/updateProfile');
 
 const app = express();
 
-bb.extend(app, {
-  upload: true,
-  path: 'uploads',
-  allowedPath: /./
-});
+
 
 const loginRoute = require('./routes/login');
 

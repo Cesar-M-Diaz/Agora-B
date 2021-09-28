@@ -1,20 +1,18 @@
 const express = require('express');
-const cloudinary = require('cloudinary').v2;
-const updateProfile = require('../controllers/updateProfile.controller');
+const bb = require('express-busboy')
+const Controller = require('../controllers/updateProfile.controller');
 
 const app = express.Router();
 
-app.post('/updateProfile', updateProfile)
+app.patch('/update', Controller.updateProfile)
 
-app.post('/uploadProfileImage', (req, res, next) => {
-    console.log("files: ", req.files);
-    cloudinary.uploader.upload(req.files.image.file, (error, result) => {
-      if(error) {
-        return next();
-      }
-      const url = result.url;
-      res.status(200).send(url);
-    })
-  })
+
+bb.extend(app, {
+  upload: true,
+  path: 'uploads',
+  allowedPath: /./
+});
+
+app.patch('/uploadProfileImage', Controller.updateProfileImage)
 
 module.exports = app;
