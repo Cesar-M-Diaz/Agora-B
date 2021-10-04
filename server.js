@@ -3,7 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const registerRoute = require('./routes/register');
-const tutorsearch = require('./routes/tutorSearch');
+const categories = require('./routes/categories');
+const tutors = require('./routes/tutors');
+const tutorSearch = require('./routes/tutorSearch');
 const tutorProfileRoutes = require('./routes/tutorProfile');
 const categories = require('./routes/categories')
 const tutors = require('./routes/tutors')
@@ -23,8 +25,8 @@ app.use(registerRoute);
 app.use(tutorProfileRoutes);
 app.use(categories);
 app.use(tutors);
-app.use(tutorsearch);
 app.use(updateProfile);
+app.use(tutorSearch);
 
 const uri = process.env.ATLAS_URI;
 
