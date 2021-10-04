@@ -4,7 +4,19 @@ const Review = require('../models/review.model');
 const getTutorData = async (req, res) => {
   try {
     const tutor = await Tutor.findById({ _id: req.params.id });
-    const { name, email, profile_photo, description, profession, focus, rating } = tutor;
+    const {
+      name,
+      email,
+      profile_photo,
+      description,
+      profession,
+      focus,
+      rating,
+    } = tutor;
+    const reviews = await Review.find({ tutor_id: req.params.id }).populate(
+      'student_id',
+      'name',
+    );
     const tutorData = {
       name,
       email,
@@ -13,6 +25,7 @@ const getTutorData = async (req, res) => {
       profession,
       focus,
       rating,
+      reviews,
     };
     res.status(200).json(tutorData);
   } catch (error) {
@@ -20,13 +33,4 @@ const getTutorData = async (req, res) => {
   }
 };
 
-const getTutorReviews = async (req, res) => {
-  try {
-    const reviews = await Review.find({ tutor_id: req.params.id }).populate('student_id', 'name');
-    res.status(200).json(reviews);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-};
-
-module.exports = { getTutorData, getTutorReviews };
+module.exports = { getTutorData };
