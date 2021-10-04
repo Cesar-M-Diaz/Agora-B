@@ -7,7 +7,6 @@ const jwt = require('jsonwebtoken');
 const getUserData = async (req, res) => {
   try {
     const token = req.query.token;
-    // console.log(req.query.token)
     const data = jwt.verify(token, 'secret key');
     res.json(data);
   } catch (error) {

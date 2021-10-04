@@ -5,15 +5,20 @@ const mongoose = require('mongoose');
 const registerRoute = require('./routes/register');
 const categories = require('./routes/categories');
 const tutors = require('./routes/tutors');
+const tutorSearch = require('./routes/tutorSearch');
+const tutorProfileRoutes = require('./routes/tutorProfile');
 const loginRoute = require('./routes/login');
+
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use(loginRoute);
 app.use(registerRoute);
+app.use(tutorProfileRoutes);
 app.use(categories);
 app.use(tutors);
+app.use(tutorSearch);
 
 // database for production
 const uri = process.env.ATLAS_URI;
