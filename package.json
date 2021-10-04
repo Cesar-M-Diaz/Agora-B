@@ -15,10 +15,7 @@
     "nodemon": "^2.0.12"
   },
   "scripts": {
-    "start": "node server.js"
-  },
-  "engines": {
-    "node": "14.17.5",
-    "yarn": "1.22.11"
+    "start": "node server.js",
+    "nodemon": "nodemon server.js"
   }
 }
