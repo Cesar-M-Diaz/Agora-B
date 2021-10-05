@@ -7,9 +7,16 @@ const categories = require('./routes/categories');
 const tutors = require('./routes/tutors');
 const tutorSearch = require('./routes/tutorSearch');
 const tutorProfileRoutes = require('./routes/tutorProfile');
-const loginRoute = require('./routes/login');
+const categories = require('./routes/categories')
+const tutors = require('./routes/tutors')
+const updateProfile = require('./routes/updateProfile');
 
 const app = express();
+
+
+
+const loginRoute = require('./routes/login');
+
 
 app.use(cors());
 app.use(express.json());
@@ -18,6 +25,7 @@ app.use(registerRoute);
 app.use(tutorProfileRoutes);
 app.use(categories);
 app.use(tutors);
+app.use(updateProfile);
 app.use(tutorSearch);
 
 const uri = process.env.ATLAS_URI;
