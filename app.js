@@ -3,12 +3,10 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const registerRoute = require('./routes/register');
-const categories = require('./routes/categories');
-const tutors = require('./routes/tutors');
 const tutorSearch = require('./routes/tutorSearch');
 const tutorProfileRoutes = require('./routes/tutorProfile');
-const categories = require('./routes/categories')
-const tutors = require('./routes/tutors')
+const categories = require('./routes/categories');
+const tutors = require('./routes/tutors');
 const updateProfile = require('./routes/updateProfile');
 const loginRoute = require('./routes/login');
 

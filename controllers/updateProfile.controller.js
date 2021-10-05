@@ -1,20 +1,20 @@
-const cloudinary = require("cloudinary").v2;
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const Student = require("../models/student.model");
-const Tutor = require("../models/tutor.model");
+const cloudinary = require('cloudinary').v2;
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const Student = require('../models/student.model');
+const Tutor = require('../models/tutor.model');
 
 const updateProfile = async (req, res, next) => {
   try {
-    const { name, email, password } = req.body.inputs;
+    const { name, email, password, description, schedule } = req.body.inputs;
     const { url, token, type } = req.body;
-    const userSchema = type === "student" ? Student : Tutor;
+    const userSchema = type === 'student' ? Student : Tutor;
     const userExists = await userSchema.findOne({ email });
     if (userExists) {
-      res.status(409).send("Email is already taken");
+      res.status(409).send('Email is already taken');
       next();
     } else {
-      const { userData } = jwt.verify(token, "secret key");
+      const { userData } = jwt.verify(token, 'secret key');
       const newPassword = password && (await bcrypt.hash(password, 10));
       await userSchema.updateOne(
         { _id: userData._id },
@@ -23,7 +23,9 @@ const updateProfile = async (req, res, next) => {
           email: email || userData.email,
           password: newPassword || userData.password,
           profile_photo: url || userData.profile_photo,
-        }
+          description: description || userData.description,
+          schedule: schedule || userData.schedule,
+        },
       );
       const newUserData = await userSchema.findOne({ _id: userData._id });
       const newToken = jwt.sign(
@@ -33,7 +35,7 @@ const updateProfile = async (req, res, next) => {
           type,
           userData: newUserData,
         },
-        "secret key"
+        'secret key',
       );
       res.json(newToken);
     }
@@ -49,6 +51,7 @@ const updateProfileImage = (req, res, next) => {
         return next();
       }
       const url = result.url;
+      console.log(url);
       res.status(200).send(url);
     });
   } catch (error) {
