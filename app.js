@@ -7,6 +7,9 @@ const categories = require('./routes/categories');
 const tutors = require('./routes/tutors');
 const tutorSearch = require('./routes/tutorSearch');
 const tutorProfileRoutes = require('./routes/tutorProfile');
+const categories = require('./routes/categories')
+const tutors = require('./routes/tutors')
+const updateProfile = require('./routes/updateProfile');
 const loginRoute = require('./routes/login');
 
 const app = express();
@@ -18,6 +21,7 @@ app.use(registerRoute);
 app.use(tutorProfileRoutes);
 app.use(categories);
 app.use(tutors);
+app.use(updateProfile);
 app.use(tutorSearch);
 
 // database for production
