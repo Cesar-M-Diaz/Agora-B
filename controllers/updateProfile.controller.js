@@ -51,7 +51,6 @@ const updateProfileImage = (req, res, next) => {
         return next();
       }
       const url = result.url;
-      console.log(url);
       res.status(200).send(url);
     });
   } catch (error) {
