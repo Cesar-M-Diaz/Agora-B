@@ -4,10 +4,12 @@ const Tutorship = require('../models/tutorship.model');
 
 const createTutorship = async (req, res, next) => {
   try {
-    const { email, description, tutor_id } = req.body;
+    const { email, tutor_id, date, time } = req.body;
     const student = await Student.findOne({ email });
     if (student) {
-      const tutorship = await Tutorship.create({ student_id: student._id, description, tutor_id });
+      const newDate = `${date}T${time}:00.000z`;
+      const tutorship = await Tutorship.create({ student_id: student._id, date: newDate, tutor_id });
+      console.log(tutorship);
       res.status(200).json(tutorship);
       next();
     } else {
