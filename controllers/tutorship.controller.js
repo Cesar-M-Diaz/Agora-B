@@ -25,7 +25,7 @@ const createTutorship = async (req, res, next) => {
 
 const getTutorships = async (req, res, next) => {
   try {
-    const { id } = req.body;
+    const { id } = req.params;
     const user =
       (await Student.findOne({ _id: id })) ||
       (await Tutor.findOne({ _id: id }));

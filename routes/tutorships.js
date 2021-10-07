@@ -4,6 +4,6 @@ const tutorshipController = require('../controllers/tutorship.controller');
 const tutorship = express.Router();
 
 tutorship.post('/tutorship', tutorshipController.createTutorship);
-tutorship.get('/tutorships', tutorshipController.getTutorships);
+tutorship.get('/tutorships/:id', tutorshipController.getTutorships);
 
 module.exports = tutorship;
