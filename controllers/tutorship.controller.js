@@ -8,7 +8,6 @@ const createTutorship = async (req, res, next) => {
     const student = await Student.findOne({ email });
     if (student) {
       const tutorship = await Tutorship.create({ student_id: student._id, description, tutor_id });
-      console.log(tutorship);
       res.status(200).json(tutorship);
       next();
     } else {
