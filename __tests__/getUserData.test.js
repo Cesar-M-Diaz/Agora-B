@@ -24,6 +24,5 @@ describe('Get User Data', () => {
         const token = response.body.token;
         const data = jwt.verify(token, 'secret key');
         expect(data).toBeTruthy();
-        console.log(data)
     })
 })
