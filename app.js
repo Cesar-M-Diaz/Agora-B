@@ -9,7 +9,7 @@ const categories = require('./routes/categories');
 const tutors = require('./routes/tutors');
 const updateProfile = require('./routes/updateProfile');
 const loginRoute = require('./routes/login');
-const tutorshipRoute = require('./routes/tutorships');
+const tutorships = require('./routes/tutorships');
 
 const app = express();
 
@@ -22,7 +22,7 @@ app.use(categories);
 app.use(tutors);
 app.use(updateProfile);
 app.use(tutorSearch);
-app.use(tutorshipRoute);
+app.use(tutorships);
 
 // database for production
 const uri = process.env.ATLAS_URI;

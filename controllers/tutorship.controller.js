@@ -9,7 +9,6 @@ const createTutorship = async (req, res, next) => {
     if (student) {
       const newDate = `${date}T${time}:00.000z`;
       const tutorship = await Tutorship.create({ student_id: student._id, date: newDate, tutor_id });
-      console.log(tutorship);
       res.status(200).json(tutorship);
       next();
     } else {
@@ -20,4 +19,17 @@ const createTutorship = async (req, res, next) => {
   }
 };
 
-module.exports = { createTutorship };
+const getTutorships = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = (await Student.findOne({ _id: id })) || (await Tutor.findOne({ _id: id }));
+    const userType = user.focus ? 'tutor_id' : 'student_id';
+    const tutorships = await Tutorship.find({ [userType]: user.id });
+    res.status(200).json(tutorships);
+    next();
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+module.exports = { createTutorship, getTutorships };

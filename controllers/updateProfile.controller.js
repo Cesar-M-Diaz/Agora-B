@@ -44,7 +44,7 @@ const updateProfile = async (req, res, next) => {
   }
 };
 
-const updateProfileImage = (req, res, next) => {
+const updateProfileImage = async (req, res, next) => {
   try {
     cloudinary.uploader.upload(req.files.image.file, (error, result) => {
       if (error) {
