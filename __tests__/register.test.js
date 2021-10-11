@@ -2,8 +2,6 @@ const request = require('supertest');
 const mongoose = require('mongoose');
 const app = require('../app');
 const Student = require('../models/tutor.model');
-// const { generateJWT } = require('../utils');
-// const Task = require('../task');
 
 afterAll(() => {
   mongoose.disconnect();
