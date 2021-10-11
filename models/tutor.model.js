@@ -22,11 +22,14 @@ const tutorSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    schedule: {
+      type: String,
+      default: 'from mondays to fridays, from 8:30am to 5:00pm',
+    },
     profile_photo: String,
     description: String,
     profession: String,
     focus: String,
-    schedule: String,
     rating: Number,
   },
   {
