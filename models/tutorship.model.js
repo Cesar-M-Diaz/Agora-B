@@ -4,7 +4,7 @@ const tutorshipSchema = mongoose.Schema(
   {
     tutor_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Tutorship',
+      ref: 'Tutor',
       required: true,
     },
     student_id: {
