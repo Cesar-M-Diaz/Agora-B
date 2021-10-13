@@ -22,6 +22,7 @@ const studentSchema = mongoose.Schema(
       required: true,
     },
     profile_photo: String,
+    epaycoCustomerId: String,
   },
   {
     timestamps: true,
