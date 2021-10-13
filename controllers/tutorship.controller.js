@@ -22,9 +22,11 @@ const createTutorship = async (req, res, next) => {
 const getTutorships = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const user = (await Student.findOne({ _id: id })) || (await Tutor.findOne({ _id: id }));
-    const userType = user.focus ? 'tutor_id' : 'student_id';
-    const tutorships = await Tutorship.find({ [userType]: user.id });
+    const user =
+      (await Student.findOne({ _id: id })) ||
+      (await Tutor.findOne({ _id: id }));
+    const userType = user.focus ? "tutor_id" : "student_id";
+    const tutorships = await Tutorship.find({ [userType]: user.id }).populate('tutor_id').exec();
     res.status(200).json(tutorships);
     next();
   } catch (error) {
