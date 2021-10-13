@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 
 const PaymentSchema = mongoose.Schema(
   {
-    studentId: {
+    student_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Student',
       required: true,
     },
-    epaycoCustomerId: {
+    epayco_customer_id: {
       type: String,
       required: true,
     },

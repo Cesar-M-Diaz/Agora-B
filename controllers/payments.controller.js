@@ -13,7 +13,7 @@ async function addCard(req, res) {
   // then uses to add the card to new user
   // token_card
   // customer_id
-  const { cardInfo, epaycoCustomerId: customer_id } = req.body;
+  const { cardInfo, epayco_customer_id: customer_id } = req.body;
   try {
     const token = await epayco.token.create(cardInfo);
     console.log(token);
@@ -33,7 +33,7 @@ async function deleteCard(req, res) {
   //franchise : "visa",
   //mask : "457562******0326",
   //customer_id:"id_customer"
-  const { epaycoCustomerId: customer_id, franchise, mask } = req.body;
+  const { epayco_customer_id: customer_id, franchise, mask } = req.body;
   const delete_customer_info = { customer_id, franchise, mask };
   try {
     const customer = await epayco.customers.delete(delete_customer_info);
@@ -45,7 +45,7 @@ async function deleteCard(req, res) {
 }
 
 async function getCustomer(req, res) {
-  const { epaycoCustomerId: customerId } = req.body;
+  const { epayco_customer_id: customerId } = req.body;
   try {
     const customer = await epayco.customers.get(customerId);
     res.status(201).json({ customer });
@@ -78,8 +78,8 @@ async function payment(req, res) {
       // save payment schema
       const newPayment = new Payment({
         ...charge,
-        studentId: user_id,
-        epaycoCustomerId: customer_id,
+        student_id: user_id,
+        epayco_customer_id: customer_id,
       });
       const payment = await newPayment.save();
       res.status(201).json({ payment });
@@ -90,8 +90,8 @@ async function payment(req, res) {
       // save payment schema
       const newPayment = new Payment({
         ...charge,
-        studentId: user_id,
-        epaycoCustomerId: currentPaymentData.customer_id,
+        student_id: user_id,
+        epayco_customer_id: currentPaymentData.customer_id,
       });
       const payment = await newPayment.save();
       res.status(201).json({ payment });
