@@ -1,6 +1,9 @@
 const Tutor = require('../models/tutor.model');
 const Student = require('../models/student.model');
 const jwt = require('jsonwebtoken');
+const sendEmail = require('../utils/sendEmail')
+require('dotenv').config({path: '../.env'})
+
 
 const createUser = async (req, res) => {
   try {
@@ -23,9 +26,19 @@ const createUser = async (req, res) => {
     );
     const userInfo = { token, userData: user };
     res.status(201).json(userInfo);
+    
+    sendEmail({
+      user: user,
+      template: 'd-0bc86a7e18464b9191cb127be79f094c',
+      template_data: {"name": user.name}
+    })
+
+    
+    
   } catch (err) {
     res.status(400).json('Error: ' + err);
   }
+
 };
 
 module.exports = { createUser };

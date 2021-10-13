@@ -14,19 +14,15 @@ const tutorshipSchema = mongoose.Schema(
     },
     status: {
       type: String,
-      default: 'Created',
+      default: 'pending',
     },
-    description: {
-      type: String,
+    date: {
+      type: Date,
       required: true,
     },
-    created_date: {
-      type: Date,
-      default: Date.now(),
-    },
-    ccompleted_date: {
-      type: String,
-      default: '',
+    isRated: {
+      type: Boolean,
+      default: false,
     },
   },
   {
