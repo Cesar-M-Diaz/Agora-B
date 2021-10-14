@@ -10,6 +10,7 @@ const tutors = require('./routes/tutors');
 const updateProfile = require('./routes/updateProfile');
 const loginRoute = require('./routes/login');
 const tutorships = require('./routes/tutorships');
+const rateTutorship = require('./routes/rateTutorship');
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(tutors);
 app.use(updateProfile);
 app.use(tutorSearch);
 app.use(tutorships);
+app.use(rateTutorship)
 
 // database for production
 const uri = process.env.ATLAS_URI;

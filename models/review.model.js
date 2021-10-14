@@ -23,8 +23,7 @@ const reviewSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Tutorship',
     required: true,
-  },
-  comment: String,
+  }
 });
 
 const Review = mongoose.model('Review', reviewSchema);
