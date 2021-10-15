@@ -7,6 +7,7 @@ const epayco = require('epayco-sdk-node')({
 
 const Student = require('../models/student.model');
 const Payment = require('../models/payment.model');
+const Tutorship = require('../models/tutorship.model');
 
 async function addCard(req, res) {
   // first creates card using card info
@@ -41,7 +42,7 @@ async function deleteCard(req, res) {
 }
 
 async function getCustomer(req, res) {
-  const { id } = req.params;
+  const { id } = req.query;
   try {
     const student = await Student.findOne({ _id: id });
     const { epayco_customer_id: customerId } = student;
@@ -53,7 +54,8 @@ async function getCustomer(req, res) {
 }
 
 async function payment(req, res) {
-  const { cardInfo, customerInfo, user_id, paymentInfo, currentPaymentData } = req.body;
+  const { tutorship_id, cardInfo, customerInfo, user_id, paymentInfo, currentPaymentData } = req.body;
+  console.log(req.body);
   try {
     if (!currentPaymentData) {
       // get card token
@@ -78,7 +80,13 @@ async function payment(req, res) {
         epayco_customer_id: customer_id,
       });
       const payment = await newPayment.save();
-      res.status(201).json({ payment, updatedStudent });
+
+      //update tutorship status
+      const filterTutorship = { _id: tutorship_id };
+      const updateTutorship = { status: 'accepted' };
+      const updatedTutorship = await Tutorship.updateOne(filterTutorship, updateTutorship);
+
+      res.status(201).json({ payment, updatedStudent, updatedTutorship });
     } else {
       // make payment
       const { data: charge } = await epayco.charge.create(currentPaymentData);
@@ -90,7 +98,13 @@ async function payment(req, res) {
         epayco_customer_id: currentPaymentData.customer_id,
       });
       const payment = await newPayment.save();
-      res.status(201).json({ payment });
+
+      //update tutorship status
+      const filterTutorship = { _id: tutorship_id };
+      const updateTutorship = { status: 'accepted' };
+      const updatedTutorship = await Tutorship.updateOne(filterTutorship, updateTutorship);
+
+      res.status(201).json({ payment, updatedTutorship });
     }
   } catch (error) {
     res.status(500).send(error.message);
