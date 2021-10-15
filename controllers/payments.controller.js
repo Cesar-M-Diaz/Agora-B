@@ -55,7 +55,6 @@ async function getCustomer(req, res) {
 
 async function payment(req, res) {
   const { tutorship_id, cardInfo, customerInfo, user_id, paymentInfo, currentPaymentData } = req.body;
-  console.log(req.body);
   try {
     if (!currentPaymentData) {
       // get card token
