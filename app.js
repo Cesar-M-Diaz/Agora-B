@@ -3,11 +3,15 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const registerRoute = require('./routes/register');
-const categories = require('./routes/categories');
-const tutors = require('./routes/tutors');
 const tutorSearch = require('./routes/tutorSearch');
 const tutorProfileRoutes = require('./routes/tutorProfile');
+const categories = require('./routes/categories');
+const tutors = require('./routes/tutors');
+const updateProfile = require('./routes/updateProfile');
 const loginRoute = require('./routes/login');
+const tutorships = require('./routes/tutorships');
+const students = require('./routes/students.js');
+const payments = require('./routes/payment');
 
 const app = express();
 
@@ -18,12 +22,13 @@ app.use(registerRoute);
 app.use(tutorProfileRoutes);
 app.use(categories);
 app.use(tutors);
+app.use(updateProfile);
 app.use(tutorSearch);
+app.use(tutorships);
+app.use(students);
+app.use(payments);
 
-// database for production
 const uri = process.env.ATLAS_URI;
-// database for testing
-// const uri = process.env.ATLAS_URI_TEST;
 
 mongoose.connect(uri, { useNewUrlParser: true });
 const connection = mongoose.connection;
