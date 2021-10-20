@@ -10,6 +10,7 @@ const getTutors = async (req, res) => {
       'focus',
       'rating',
       'description',
+      'price'
     ])
       .sort({ rating: -1 })
       .limit(4);
@@ -18,5 +19,6 @@ const getTutors = async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 };
+
 
 module.exports = { getTutors };
