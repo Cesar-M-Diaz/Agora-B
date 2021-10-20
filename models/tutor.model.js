@@ -31,6 +31,7 @@ const tutorSchema = mongoose.Schema(
     profession: String,
     focus: String,
     rating: Number,
+    price: Number
   },
   {
     timestamps: true,
