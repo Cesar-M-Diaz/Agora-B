@@ -53,7 +53,7 @@ const getTutorships = async (req, res, next) => {
       (await Student.findOne({ _id: id })) ||
       (await Tutor.findOne({ _id: id }));
     const userType = user.focus ? "tutor_id" : "student_id";
-    const tutorships = await Tutorship.find({ [userType]: user.id }).populate('tutor_id').populate('student_id').exec();
+    const tutorships = await Tutorship.find({ [userType]: user.id }).sort({ date: 1 }).populate('tutor_id').exec();
     res.status(200).json(tutorships);
     next();
   } catch (error) {
