@@ -10,6 +10,7 @@ const tutors = require('./routes/tutors');
 const updateProfile = require('./routes/updateProfile');
 const loginRoute = require('./routes/login');
 const tutorships = require('./routes/tutorships');
+const rateTutorship = require('./routes/rateTutorship');
 const students = require('./routes/students.js');
 const payments = require('./routes/payment');
 
@@ -25,8 +26,10 @@ app.use(tutors);
 app.use(updateProfile);
 app.use(tutorSearch);
 app.use(tutorships);
+app.use(rateTutorship)
 app.use(students);
 app.use(payments);
+
 
 const uri = process.env.ATLAS_URI;
 
