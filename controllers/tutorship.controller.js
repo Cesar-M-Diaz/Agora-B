@@ -61,4 +61,28 @@ const getTutorships = async (req, res, next) => {
   }
 };
 
-module.exports = { createTutorship, getTutorships };
+const cancelTutorship = async (req, res) => {
+  try {
+    const { tutorship } = req.body;
+    const { currentUser } = req;
+    const currentTutorship = await Tutorship.findOne({ "_id": tutorship })
+    if(currentTutorship.status !== "pending"){
+      return res.status(400).send("Invalid request")
+    }
+    let userHasPermissions = false;
+    if(currentUser.type === "student"){
+      userHasPermissions = (currentTutorship.student_id.toString() === currentUser.userId)
+    } else {
+      userHasPermissions = (currentTutorship.tutor_id.toString() === currentUser.userId)
+    }
+    if(userHasPermissions){
+      await Tutorship.updateOne({"_id": tutorship}, { $set: { status: "canceled" }})
+      return res.status(200).send("Tutorship canceled successfully")
+    }
+    res.status(403).send("Forbidden")
+  } catch (error) {
+    res.status(500).send(error)
+  }
+}
+
+module.exports = { createTutorship, getTutorships, cancelTutorship };
