@@ -106,7 +106,7 @@ async function payment(req, res) {
       res.status(201).json({ payment, updatedTutorship });
     }
   } catch (error) {
-    res.status(500).send(error.message);
+    res.status(500).send(error._message);
   }
 }
 
