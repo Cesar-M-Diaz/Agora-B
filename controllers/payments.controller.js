@@ -41,6 +41,28 @@ async function deleteCard(req, res) {
   }
 }
 
+async function createUser(req, res) {
+  const { cardInfo, customerInfo, user_id } = req.body;
+  try {
+    // get card token
+    const token = await epayco.token.create(cardInfo);
+    const { id: token_card } = token;
+    // get created customer
+    const customer = await epayco.customers.create({ ...customerInfo, token_card });
+    const {
+      data: { customerId: customer_id },
+    } = customer;
+    const filter = { _id: user_id };
+    const update = { epayco_customer_id: customer_id };
+    // add the epayco Customer id
+    const updatedStudent = await Student.updateOne(filter, update);
+
+    res.status(201).json({ payment, updatedStudent });
+  } catch (error) {
+    res.status(500).send(error._message);
+  }
+}
+
 async function getCustomer(req, res) {
   const { id } = req.query;
   try {
@@ -110,4 +132,4 @@ async function payment(req, res) {
   }
 }
 
-module.exports = { payment, addCard, getCustomer, deleteCard };
+module.exports = { payment, addCard, getCustomer, deleteCard, createUser };
