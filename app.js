@@ -13,6 +13,7 @@ const tutorships = require('./routes/tutorships');
 const rateTutorship = require('./routes/rateTutorship');
 const students = require('./routes/students.js');
 const payments = require('./routes/payment');
+const sendAppointment = require('./routes/sendAppointment.js')
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use(tutorships);
 app.use(rateTutorship)
 app.use(students);
 app.use(payments);
+app.use(sendAppointment)
 
 
 const uri = process.env.ATLAS_URI;
