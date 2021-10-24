@@ -7,5 +7,6 @@ const tutorship = express.Router();
 tutorship.post('/tutorship', tutorshipController.createTutorship);
 tutorship.get('/tutorships/:id', tutorshipController.getTutorships);
 tutorship.post('/cancelTutorship', verifyAuth, tutorshipController.cancelTutorship);
+tutorship.get('/tutorship/:id', tutorshipController.getTutorship);
 
 module.exports = tutorship;
