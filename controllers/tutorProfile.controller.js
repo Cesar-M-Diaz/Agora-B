@@ -4,7 +4,7 @@ const Review = require('../models/review.model');
 const getTutorData = async (req, res) => {
   try {
     const tutor = await Tutor.findById({ _id: req.params.id });
-    const { name, email, profile_photo, description, profession, focus, rating, schedule } = tutor;
+    const { name, email, profile_photo, description, profession, focus, rating, schedule, price } = tutor;
     const reviews = await Review.find({ tutor_id: req.params.id }).populate('student_id', 'name');
     const tutorData = {
       name,
@@ -16,6 +16,7 @@ const getTutorData = async (req, res) => {
       rating,
       reviews,
       schedule,
+      price,
     };
     res.status(200).json(tutorData);
   } catch (error) {
