@@ -22,7 +22,7 @@ const createTutorship = async (req, res, next) => {
           "subject":tutor.focus,
           "date": newDate.slice(0,10),
           "status": "created but is pending for payment",
-          "url": "https://agora-projectagora2021-gmailcom.vercel.app/profile/tutorships"
+     
         }
       })
       // Send Email Tutor
@@ -34,7 +34,6 @@ const createTutorship = async (req, res, next) => {
           "tutor": tutor.name,
           "date": newDate.slice(0,10),
           "status": "created but is pending for payment",
-          "url": "https://agora-projectagora2021-gmailcom.vercel.app/profile/tutorships"
         }
       })
       next();
@@ -83,7 +82,22 @@ const cancelTutorship = async (req, res) => {
   } catch (error) {
     res.status(500).send(error)
   }
+
+  console.log(currentUser, tutorship, currentTutorship)
 }
 
+const getTutorship = async (req, res) => {
+  try {
+    const {id} = req.params
+    const tutorship = await Tutorship.find({_id: id})
+    .populate('tutor_id',['name', 'email', 'focus'])
+    .populate('student_id',['name', 'email']);
+    res.send({tutorship});
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+};
 
-module.exports = { createTutorship, getTutorships, cancelTutorship };
+
+
+module.exports = { createTutorship, getTutorships, cancelTutorship, getTutorship };

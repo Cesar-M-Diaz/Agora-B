@@ -8,6 +8,7 @@ const epayco = require('epayco-sdk-node')({
 const Student = require('../models/student.model');
 const Payment = require('../models/payment.model');
 const Tutorship = require('../models/tutorship.model');
+const sendEmail = require('../utils/sendEmail');
 
 async function addCard(req, res) {
   // first creates card using card info
@@ -111,6 +112,7 @@ async function payment(req, res) {
     } else {
       // make payment
       const { data: charge } = await epayco.charge.create(currentPaymentData);
+      console.log(tutorship_id, cardInfo, customerInfo, user_id, paymentInfo, currentPaymentData)
 
       // save payment schema
       const newPayment = new Payment({
@@ -130,6 +132,39 @@ async function payment(req, res) {
   } catch (error) {
     res.status(500).send(error._message);
   }
+
+ 
+  const Email = async() => {
+    const tutorship = await Tutorship.find({_id: tutorship_id})
+    .populate('tutor_id',['name', 'email', 'focus'])
+    .populate('student_id',['name', 'email']);
+
+    console.log(tutorship[0].student_id.name)
+    // Send Email Tutor
+    sendEmail({
+      user: tutorship[0].tutor_id,
+      template: 'd-4347de2b9f6c4d129c7c53f5a29d99dd',
+      template_data: {
+        "student": tutorship[0].student_id.name,
+        "tutor": tutorship[0].tutor_id.name,
+        "date": new Date(tutorship[0].date).toDateString(),
+        "status": "paid for",
+      }
+    })
+    //Send Email Student
+    sendEmail({
+      user: tutorship[0].student_id,
+      template: 'd-4347de2b9f6c4d129c7c53f5a29d99dd',
+      template_data: {
+        "student": tutorship[0].student_id.name,
+        "tutor": tutorship[0].tutor_id.name,
+        "date": new Date(tutorship[0].date).toDateString(),
+        "status": "successfully paid for. Enjoy it.",
+      }
+    })
+  }
+  Email()
+
 }
 
 module.exports = { payment, addCard, getCustomer, deleteCard, createUser };
