@@ -75,8 +75,41 @@ const cancelTutorship = async (req, res) => {
       userHasPermissions = (currentTutorship.tutor_id.toString() === currentUser.userId)
     }
     if(userHasPermissions){
+      
       await Tutorship.updateOne({"_id": tutorship}, { $set: { status: "canceled" }})
+        
+      const Email = async() => {
+        const gettutorship = await Tutorship.find({_id: tutorship})
+        .populate('tutor_id',['name', 'email', 'focus'])
+        .populate('student_id',['name', 'email']);
+    
+        // Send Email Tutor
+        sendEmail({
+          user: gettutorship[0].tutor_id,
+          template: 'd-4347de2b9f6c4d129c7c53f5a29d99dd',
+          template_data: {
+            "student": gettutorship[0].student_id.name,
+            "tutor": gettutorship[0].tutor_id.name,
+            "date": new Date(gettutorship[0].date).toDateString(),
+            "status": "canceled",
+          }
+        })
+        //Send Email Student
+        sendEmail({
+          user: gettutorship[0].student_id,
+          template: 'd-c81fed9ad95d4740a44b1f7760976fe9',
+          template_data: {
+            "student": gettutorship[0].student_id.name,
+            "tutor": gettutorship[0].tutor_id.name,
+            "date": new Date(gettutorship[0].date).toDateString(),
+            "status": "canceled",
+          }
+        })
+      }
+      Email()
+
       return res.status(200).send("Tutorship canceled successfully")
+     
     }
     res.status(403).send("Forbidden")
   } catch (error) {
@@ -100,8 +133,36 @@ const completeTutorship = async (req, res) => {
     }
     if(userHasPermissions){
       await Tutorship.updateOne({"_id": tutorship}, { $set: { status: "completed" }})
+      const Email = async() => {
+        const gettutorship = await Tutorship.find({_id: tutorship})
+        .populate('tutor_id',['name', 'email', 'focus'])
+        .populate('student_id',['name', 'email']);
+  
+       // Send Email Tutor
+        sendEmail({
+          user: gettutorship[0].tutor_id,
+          template: 'd-4347de2b9f6c4d129c7c53f5a29d99dd',
+          template_data: {
+            "student": gettutorship[0].student_id.name,
+            "tutor": gettutorship[0].tutor_id.name,
+            "date": new Date(gettutorship[0].date).toDateString(),
+            "status": "completed but is pending for a review",
+          }
+        })
+        //Send Email Student
+        sendEmail({
+          user: gettutorship[0].student_id,
+          template: 'd-c75558a651f349f29ce23f47636cfef6',
+          template_data: {
+            "student" : gettutorship[0].student_id.name,
+            "tutor": gettutorship[0].tutor_id.name,
+          }
+        })
+      }
+      Email()
       return res.status(200).send("Tutorship completed successfully")
     }
+  
     res.status(403).send("Forbidden")
   } catch (error) {
     res.status(500).send(error)
