@@ -12,7 +12,8 @@ const sendAppointment = (req,res) => {
       "message": inputs.description,
       "date": inputs.date,
       "time": inputs.time,
-      "email": student.email
+      "email": student.email,
+      "url": `https://project-agora.vercel.app/profile/create-tutorship/?email=${student.email}&date=${inputs.date}&time=${inputs.time}`
     }
   })
     
