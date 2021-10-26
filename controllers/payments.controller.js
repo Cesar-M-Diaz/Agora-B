@@ -154,12 +154,12 @@ async function payment(req, res) {
     //Send Email Student
     sendEmail({
       user: tutorship[0].student_id,
-      template: 'd-4347de2b9f6c4d129c7c53f5a29d99dd',
+      template: 'd-c81fed9ad95d4740a44b1f7760976fe9',
       template_data: {
         "student": tutorship[0].student_id.name,
         "tutor": tutorship[0].tutor_id.name,
         "date": new Date(tutorship[0].date).toDateString(),
-        "status": "successfully paid for. Enjoy it.",
+        "status": "successfully paid for. Have fun learning",
       }
     })
   }
